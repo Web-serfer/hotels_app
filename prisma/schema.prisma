@@ -1,0 +1,109 @@
+// Генератор Prisma Client, который будет использоваться для работы с базой данных.
+// В данном случае используется "prisma-client-js", который поддерживает JavaScript и TypeScript.
+// Также включаются функции "fullTextSearch" и "fullTextIndex" для полнотекстового поиска.
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+// MYSQL_DB
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// NEON_DB
+// datasource db {
+//   provider     = "postgresql"
+//   url          = env("DATABASE_URL")
+//   relationMode = "prisma"
+// }
+
+// Модель "Hotel", которая представляет отель в базе данных.
+model Hotel {
+  id                  String    @id @default(uuid())
+  userId              String
+  title               String    @db.Text
+  description         String    @db.LongText
+  image               String
+  country             String
+  state               String
+  city                String
+  locationDescription String    @db.LongText
+  gym                 Boolean   @default(false)
+  spa                 Boolean   @default(false)
+  bar                 Boolean   @default(false)
+  laundry             Boolean   @default(false)
+  restaurant          Boolean   @default(false)
+  shopping            Boolean   @default(false)
+  freeParking         Boolean   @default(false)
+  bikeRental          Boolean   @default(false)
+  freeWifi            Boolean   @default(false)
+  movieNights         Boolean   @default(false)
+  swimmingPool        Boolean   @default(false)
+  coffeeShop          Boolean   @default(false)
+  addedAt             DateTime  @default(now())
+  updateAt            DateTime  @default(now())
+  rooms               Room[]
+  booking             Booking[]
+
+  @@fulltext([title])
+}
+
+// Модель "Room", которая представляет комнату в отеле.
+// Каждая комната связана с одним отелем и может иметь несколько броней.
+model Room {
+  id             String  @id @default(uuid())
+  title          String
+  description    String  @db.LongText
+  bedCount       Int     @default(0)
+  guestCount     Int     @default(0)
+  bathroomCount  Int     @default(0)
+  kingBed        Int     @default(0)
+  queenBed       Int     @default(0)
+  image          String
+  breakFastPrice Int
+  roomPrice      Int
+  roomService    Boolean @default(false)
+  TV             Boolean @default(false)
+  balcony        Boolean @default(false)
+  freeWifi       Boolean @default(false)
+  cityView       Boolean @default(false)
+  oceanView      Boolean @default(false)
+  forestView     Boolean @default(false)
+  mountinView    Boolean @default(false)
+  airCondition   Boolean @default(false)
+  soundProofed   Boolean @default(false)
+  hotelId        String
+
+  Hotel   Hotel?    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  Booking Booking[]
+
+  @@index([hotelId])
+}
+
+// Модель "Booking", которая представляет бронирование комнаты в отеле.
+// Каждое бронирование связано с одним отелем и одной комнатой.
+model Booking {
+  id                String   @id @default(uuid())
+  userName          String
+  userId            String
+  hotelId           String
+  roomId            String
+  hotelOwnerId      String
+  StartDate         DateTime
+  endDate           DateTime
+  breakFastIncluded Boolean
+  currency          String
+  totalPrice        Int
+  paymentStatus     Boolean  @default(false)
+  paymentIntentId   String   @unique
+  bookedAt          DateTime @default(now())
+
+  Hotel Hotel? @relation(fields: [hotelId], references: [id])
+  Room  Room?  @relation(fields: [roomId], references: [id])
+
+  @@index([hotelId])
+  @@index([roomId])
+}
