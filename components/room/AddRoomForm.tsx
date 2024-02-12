@@ -25,7 +25,7 @@ import { Loader2, Pencil, PencilLine, XCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { UploadButton } from '../uploadthing';
 
-interface AddRoomFormProrps {
+interface AddRoomFormProps {
   hotel?: Hotel & {
     room: Room[];
   };
@@ -64,11 +64,7 @@ const formShema = z.object({
   soundProofed: z.boolean().optional(),
 });
 
-const AddRoomForm = ({
-  hotel,
-  room,
-  handleDialogueOpen,
-}: AddRoomFormProrps) => {
+const AddRoomForm = ({ hotel, room, handleDialogueOpen }: AddRoomFormProps) => {
   // States
   const [image, setImage] = useState<string | undefined>(room?.image);
   const [imageIsDeleting, setImageIsDeleting] = useState(false);
@@ -141,11 +137,11 @@ const AddRoomForm = ({
       });
   };
 
-  // function submit
+  // function submit(create room)
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     if (hotel && room) {
-      // update hotel
+      // update room
       axios
         .patch(`/api/room/${room.id}`, values)
         .then((res) => {
@@ -173,7 +169,7 @@ const AddRoomForm = ({
         .then((res) => {
           toast({
             variant: 'success',
-            description: '👍 Room Creating',
+            description: '👍 Room Created',
           });
           router.refresh();
           setIsLoading(false);
@@ -190,18 +186,9 @@ const AddRoomForm = ({
     }
   }
 
-  const checkboxes = [
-    { name: 'roomService', label: '24hrs Room Services' },
-    { name: 'TV', label: 'TV' },
-    { name: 'balcony', label: 'Balcony' },
-    { name: 'freeWifi', label: 'FreeWifi' },
-    { name: 'cityView', label: 'CityView' },
-    { name: 'oceanView', label: 'OceanView' },
-    { name: 'forestView', label: 'ForestView' },
-    { name: 'mountainsView', label: 'MountainsView' },
-    { name: 'airCondition', label: 'AirCondition' },
-    { name: 'soundProofed', label: 'SoundProofed' },
-  ];
+  // function onSubmit() {
+  //   console.log('Кнопка Create room была нажата');
+  // }
 
   return (
     <div className="max-h-[75vh] overflow-y-auto px-2">
@@ -246,32 +233,183 @@ const AddRoomForm = ({
           <div>
             <FormLabel>Choose Room Amenities</FormLabel>
             <FormDescription>
-              What makes this room a good chooce ?
+              What makes this room a good choose ?
             </FormDescription>
-            {/* room amenities */}
+            {/* ==== ROOM AMENITIES ====*/}
             <div className="grid grid-cols-2 gap-2 mt-2">
-              {checkboxes.map((checkbox) => (
-                <FormField
-                  key={checkbox.name}
-                  control={form.control}
-                  name={checkbox.name}
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel>{checkbox.label}</FormLabel>
-                    </FormItem>
-                  )}
-                />
-              ))}
+              {/* 24hrs Room Services */}
+              <FormField
+                control={form.control}
+                name="roomService"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>24hrs Room Services</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* TV */}
+              <FormField
+                control={form.control}
+                name="TV"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>TV</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* balcony */}
+              <FormField
+                control={form.control}
+                name="balcony"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Balcony</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* free wifi */}
+              <FormField
+                control={form.control}
+                name="freeWifi"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Free Wi-fi</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* city View */}
+              <FormField
+                control={form.control}
+                name="cityView"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Сity View</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* ocean View */}
+              <FormField
+                control={form.control}
+                name="oceanView"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Ocean View</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* forest View */}
+              <FormField
+                control={form.control}
+                name="forestView"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Forest View</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* mountain View */}
+              <FormField
+                control={form.control}
+                name="mountainView"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Mountain View</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* air Condition */}
+              <FormField
+                control={form.control}
+                name="airCondition"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Air Conditioned</FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              {/* sound Proofed */}
+              <FormField
+                control={form.control}
+                name="soundProofed"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-end space-x-3 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Sound Proofed</FormLabel>
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
 
-          {/* upload image */}
+          {/* ==== UPLOAD IMAGE  ==== */}
           <div>
             <FormField
               control={form.control}
@@ -289,7 +427,7 @@ const AddRoomForm = ({
                           <Image
                             fill
                             src={image}
-                            alt="Hotel Image"
+                            alt="room Image"
                             className="object-contain"
                           />
                           <Button
@@ -305,7 +443,7 @@ const AddRoomForm = ({
                       </>
                     ) : (
                       <>
-                        {/* upload bitton */}
+                        {/* upload button */}
                         <div className="flex flex-col items-center max-w[4000px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
                           <UploadButton
                             endpoint="imageUploader"
@@ -466,14 +604,12 @@ const AddRoomForm = ({
               )}
             />
           </div>
-          {/* ==== SUBMIT BUTTON ==== */}
+
+          {/* ==== CREATE ROOM BUTTON ==== */}
           <div className="pt-4 pb-2">
-            {/* button update */}
             {room ? (
               <Button
-                onClick={() => {
-                  form.handleSubmit(onSubmit);
-                }}
+                onClick={form.handleSubmit(onSubmit)}
                 type="button"
                 disabled={isLoading}
                 className="max-w-[150px]"
@@ -490,9 +626,7 @@ const AddRoomForm = ({
               </Button>
             ) : (
               <Button
-                onClick={() => {
-                  form.handleSubmit(onSubmit);
-                }}
+                onClick={form.handleSubmit(onSubmit)}
                 type="button"
                 disabled={isLoading}
                 className="max-w-[150px]"

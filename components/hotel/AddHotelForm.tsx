@@ -54,6 +54,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import AddRoomForm from '../room/AddRoomForm';
+import RoomCard from '../room/RoomCard';
+import { Separator } from '../ui/separator';
 
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
@@ -98,6 +100,7 @@ const formSchema = z.object({
 const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   const [image, setImage] = useState<string | undefined>(hotel?.image);
 
+  // states
   const [imageIsDeleting, setImageIsDeleting] = useState(false);
   const [states, setStates] = useState<IState[]>([]);
   const [cities, setCities] = useState<ICity[]>([]);
@@ -137,7 +140,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
     },
   });
 
-  // Update image 
+  // Update image
   useEffect(() => {
     if (typeof image === 'string') {
       form.setValue('image', image, {
@@ -167,6 +170,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
     }
   }, [form.watch('country'), form.watch('state')]);
 
+  // function create hotel
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     if (hotel) {
@@ -617,7 +621,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                     </DialogTrigger>
                     <DialogContent className="max-w-[900px] w-[90%]">
                       <DialogHeader className="px-2">
-                        <DialogTitle>Add a Room</DialogTitle>
+                        <DialogTitle>Add Room</DialogTitle>
                         <DialogDescription>
                           Add details about a room in your hotel.
                         </DialogDescription>
@@ -659,6 +663,21 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                   </Button>
                 )}
               </div>
+
+              {/* room card  */}
+              {hotel && !!hotel.rooms.length && (
+                <div>
+                  <Separator />
+                  <h3 className="text-lg font-semibold my-4">Hotel Rooms</h3>
+                  <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
+                    {hotel.rooms.map((room) => {
+                      return (
+                        <RoomCard key={room.id} hotel={hotel} room={room} />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </form>

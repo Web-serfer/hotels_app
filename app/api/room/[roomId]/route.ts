@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 import prismaDB from '@/lib/prismadb';
 
-// API Update Room
+// API update room
 export async function PATCH(
   req: Request,
   { params }: { params: { roomId: string } }
@@ -28,12 +28,12 @@ export async function PATCH(
 
     return NextResponse.json(room);
   } catch (error) {
-    console.log('Error at /api/room/HotelId PATCH', error);
+    console.log('Error at /api/room/roomId PATCH', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
 
-// API Delete Room
+// API delete room
 export async function DELETE(
   req: Request,
   { params }: { params: { roomId: string } }
@@ -49,7 +49,7 @@ export async function DELETE(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const room = await prismaDB.hotel.delete({
+    const room = await prismaDB.room.delete({
       where: {
         id: params.roomId,
       },
