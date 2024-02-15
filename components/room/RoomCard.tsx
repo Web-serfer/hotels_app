@@ -35,7 +35,6 @@ import {
   UtensilsCrossed,
   VolumeX,
   Wifi,
-  Plus,
   Pencil,
 } from 'lucide-react';
 import {
@@ -126,31 +125,31 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
         <div className="grid grid-cols-2 gap-4 content-start text-sm">
           {/* beds count */}
           <AmenityItem>
-            <Bed className="w-4 h-4" />
+            <Bed className="size-4" />
             {room.bedCount} Bed{'(s)'}
           </AmenityItem>
           {/* guest count */}
           <AmenityItem>
-            <Users className="w-4 h-4" />
+            <Users className="size-4" />
             {room.guestCount} Guest{'(s)'}
           </AmenityItem>
           {/* bathroom count */}
           <AmenityItem>
-            <Bath className="w-4 h-4" />
+            <Bath className="size-4" />
             {room.bathroomCount} Bathroom{'(s)'}
           </AmenityItem>
 
           {/* king beds */}
           {!!room.kingBed && (
             <AmenityItem>
-              <BedDouble className="w-4 h-4" />
+              <BedDouble className="size-4" />
               {room.kingBed} King Bed{'(s)'}
             </AmenityItem>
           )}
           {/* queen bed */}
           {!!room.queenBed && (
             <AmenityItem>
-              <Bed className="w-4 h-4" />
+              <Bed className="size-4" />
               {room.queenBed} Queen Bed{'(s)'}
             </AmenityItem>
           )}
