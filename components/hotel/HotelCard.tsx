@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 import { HotelWithRooms } from './AddHotelForm';
 import { usePathname, useRouter } from 'next/navigation';
 import AmenityItem from '../AmenityItem';
-import { Dumbbell, MapPin, Waves } from 'lucide-react';
+import { Dumbbell, MapPin } from 'lucide-react';
 import useLocation from '@/hooks/useLocation';
 import { Button } from '../ui/button';
+import { FaSwimmer } from 'react-icons/fa';
 
 const HotelCard = ({ hotel }: { hotel: HotelWithRooms }) => {
   const pathname = usePathname();
@@ -48,7 +49,7 @@ const HotelCard = ({ hotel }: { hotel: HotelWithRooms }) => {
             </AmenityItem>
             {hotel.swimmingPool && (
               <AmenityItem>
-                <Waves className="size-4" /> Pool
+                <FaSwimmer size={18} /> Pool
               </AmenityItem>
             )}
             {hotel.gym && (
